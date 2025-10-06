@@ -1,0 +1,26 @@
+@model JwtSessionMvc.Models.Product
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<div class="card shadow-lg p-4">
+    <h3 class="mb-4">Edit Product</h3>
+    <form method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input asp-for="Name" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <input asp-for="Description" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Price</label>
+            <input asp-for="Price" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="/Products/List" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

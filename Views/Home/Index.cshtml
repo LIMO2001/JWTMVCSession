@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="container mt-5 text-center">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="p-5 bg-light shadow-lg rounded-3">
+                <h1 class="display-4 fw-bold text-primary">Welcome to JwtSessionMvc</h1>
+                <p class="lead text-muted mt-3">
+                    A simple ASP.NET Core MVC application with <strong>JWT Authentication</strong>, 
+                    <strong>Session</strong>, and <strong>Products CRUD</strong>.
+                </p>
+
+                <hr class="my-4" />
+
+                @if (User.Identity!.IsAuthenticated)
+                {
+                    <p class="mb-4">
+                        You are logged in as <strong>@User.Identity.Name</strong>.
+                    </p>
+                    <a href="/Dashboard" class="btn btn-primary btn-lg me-2">Go to Dashboard</a>
+                    <a href="/Products" class="btn btn-outline-secondary btn-lg">Manage Products</a>
+                }
+                else
+                {
+                    <p class="mb-4">
+                        Please log in or create an account to access the dashboard.
+                    </p>
+                    <a href="/Account/Login" class="btn btn-primary btn-lg me-2">Login</a>
+                    <a href="/Account/Register" class="btn btn-success btn-lg">Register</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>

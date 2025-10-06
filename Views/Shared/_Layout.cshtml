@@ -1,0 +1,97 @@
+﻿@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Authorization
+@using System.Security.Claims
+@inject IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - JwtSessionMvc</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+</head>
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="/">JwtSessionMvc</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Dashboard/Index">Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Products/List">Products</a></li>
+                    </ul>
+
+                    <ul class="navbar-nav">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item"><span class="nav-link text-light">Hello, @User.Identity.Name!</span></li>
+                            <li class="nav-item">
+                                <form method="post" action="/Account/Logout">
+                                    <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item"><a class="nav-link" href="/Account/Login">Login</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/Account/Register">Register</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mt-4">
+        @RenderBody()
+    </main>
+
+    <footer class="bg-dark text-light text-center py-3 mt-5">
+        <p>&copy; @DateTime.Now.Year - JwtSessionMvc</p>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="toastContainer"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function showToast(message, type = "success") {
+            const toastContainer = document.getElementById("toastContainer");
+            const toastId = "toast" + new Date().getTime();
+            const toastHTML = `
+            <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0 mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+              <div class="d-flex">
+                <div class="toast-body">${message}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+              </div>
+            </div>`;
+            toastContainer.insertAdjacentHTML("beforeend", toastHTML);
+            const toastEl = document.getElementById(toastId);
+            const toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        }
+
+        // Show TempData toast automatically
+        @if (TempData["Success"] != null)
+        {
+            <text>showToast("@TempData["Success"]", "success");</text>
+        }
+        @if (TempData["LoginSuccess"] != null)
+        {
+            <text>showToast("@TempData["LoginSuccess"]", "primary");</text>
+        }
+    </script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

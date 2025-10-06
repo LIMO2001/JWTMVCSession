@@ -1,0 +1,35 @@
+@model IEnumerable<JwtSessionMvc.Models.Product>
+
+@{
+    ViewData["Title"] = "Products List";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="fw-bold">Products</h3>
+    <a class="btn btn-primary" href="/Products/Create">+ Add Product</a>
+</div>
+
+<table class="table table-striped table-hover shadow-sm">
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th style="width: 150px;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+                <td>@item.Price.ToString("C")</td>
+                <td>
+                    <a href="/Products/Edit/@item.Id" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="/Products/Delete/@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

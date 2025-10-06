@@ -1,0 +1,16 @@
+@model JwtSessionMvc.Models.Product
+
+@{
+    ViewData["Title"] = "Delete Product";
+}
+
+<div class="card shadow-lg p-4">
+    <h3 class="text-danger">Delete Confirmation</h3>
+    <p class="mb-3">Are you sure you want to delete <strong>@Model.Name</strong>?</p>
+
+    <form method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        <a href="/Products/List" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
