@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: jwt_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Limo1125@
+      MYSQL_DATABASE: JwtDb
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  web:
+    build: .
+    container_name: jwt_web
+    ports:
+      - "5000:5000"
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=mysql;Database=JwtDb;User=root;Password=Limo1125@;TreatTinyAsBoolean=true;"
+      Jwt__Key: "super_secret_key_12345_super_long_key_98765"
+      Jwt__Issuer: "JwtSessionMvc"
+      Jwt__Audience: "JwtSessionMvcUsers"
+      Jwt__ExpiresMinutes: 60
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
